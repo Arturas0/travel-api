@@ -14,7 +14,7 @@ return new class extends Migration
             $table->ulid('id')->index();
             $table->boolean('is_public')->default(false);
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->text('description');
             $table->unsignedInteger('number_of_days');
             $table->unsignedInteger('number_of_nights')->virtualAs('number_of_days -1');
