@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Response;
 
 class TourRequest extends FormRequest
 {
@@ -39,10 +42,17 @@ class TourRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'sortByPrice' => 'Valid options are "ASC" or "DESC"',
+        ];
+    }
+
     protected function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException(response()->json([
             'errors' => $validator->errors(),
-        ], 422));
+        ], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

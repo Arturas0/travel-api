@@ -7,6 +7,7 @@ namespace Tests\Feature;
 use App\Models\Tour;
 use App\Models\Travel;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 
 test('can get paginated tours resource by travel slug without filters', function (): void {
     Travel::factory(3)->create(['is_public' => true]);
@@ -162,4 +163,40 @@ test('can get paginated tours resource by travel slug with date filters and sort
         ->assertJsonCount(2, 'data')
         ->assertJsonPath('data.0.attributes.price', $tour3->first()->price)
         ->assertJsonPath('data.1.attributes.price', $tour2->first()->price);
+});
+
+test('Tours EP return 422 error code, when given invalid parameters', function (): void {
+    Travel::factory(3)->create(['is_public' => true]);
+    $travelLatest = Travel::query()->latest('id')->first();
+
+    $tour1 = Tour::factory(1)->create([
+        'travel_id' => $travelLatest->id,
+        'start_date' => now(),
+        'end_date' => Carbon::createFromDate()->addDays(4),
+        'price' => 400,
+    ]);
+
+    $tour2 = Tour::factory(1)->create([
+        'travel_id' => $travelLatest->id,
+        'start_date' => Carbon::createFromDate()->addDays(6),
+        'end_date' => Carbon::createFromDate()->addDays(17),
+        'price' => 700,
+    ]);
+
+    $tour3 = Tour::factory(1)->create([
+        'travel_id' => $travelLatest->id,
+        'start_date' => Carbon::createFromDate()->addDay(),
+        'end_date' => Carbon::createFromDate()->addDays(5),
+        'price' => 500,
+    ]);
+
+
+    $response = $this->get(route('v1.travels.tours', [
+        'travel' => $travelLatest,
+        'sortByPrice' => 'random',
+    ]));
+
+    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+        ->assertJsonMissing(['data'])
+        ->assertJsonCount(1,'errors');
 });
