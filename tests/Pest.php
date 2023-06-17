@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Tour;
+use App\Models\Travel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 uses(
@@ -22,5 +25,5 @@ uses(
 
 function something()
 {
-    // ..
+
 }
