@@ -22,7 +22,7 @@ class TravelController extends Controller
         );
     }
 
-    public function tours(Travel $travel, TourRequest $request)
+    public function tours(Travel $travel, TourRequest $request): AnonymousResourceCollection
     {
         return TourResource::collection(
             $travel->tours()
