@@ -14,21 +14,21 @@ use Illuminate\Support\Facades\Validator;
 
 class CreateUserCommand extends Command
 {
-    protected $signature = 'app:create-user';
+    protected $signature = 'users:create';
 
-    protected $description = 'Command description';
+    protected $description = 'Create new user command';
 
     public function handle(): int
     {
         $this->info('User registration form. Please fill all fields.').PHP_EOL;
 
+        $email = $this->ask('What is user email?');
         $roles = $this->choice(
             question: 'What is user role',
             choices: ['admin', 'editor'],
             default: 0,
             multiple: true,
         );
-        $email = $this->ask('What is user email?');
         $password = $this->secret('What is the user password? (min 6 symbols)');
 
         if (! $this->validateUserInput($email, $password)) {

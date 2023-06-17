@@ -11,12 +11,12 @@ use Database\Seeders\RoleSeeder;
 test('can create user using artisan command', function (): void {
     $this->seed(RoleSeeder::class);
 
-    $this->artisan('app:create-user')
+    $this->artisan('users:create')
+        ->expectsQuestion('What is user email?', 'test@test.com')
         ->expectsChoice('What is user role', 'admin', [
             0 => 'admin',
             1 => 'editor',
         ])
-        ->expectsQuestion('What is user email?', 'test@test.com')
         ->expectsQuestion('What is the user password? (min 6 symbols)', '123456')
         ->expectsOutput('User with email: test@test.com was created.')
         ->assertExitCode(0);
@@ -33,12 +33,12 @@ test('can create user using artisan command', function (): void {
 test('Throws validation errors, then trying register user with incorrect email', function (): void {
     $this->seed(RoleSeeder::class);
 
-    $this->artisan('app:create-user')
+    $this->artisan('users:create')
+        ->expectsQuestion('What is user email?', 'test.com')
         ->expectsChoice('What is user role', 'editor', [
             0 =>'admin',
             1 => 'editor',
         ])
-        ->expectsQuestion('What is user email?', 'test.com')
         ->expectsQuestion('What is the user password? (min 6 symbols)', '123456')
         ->expectsOutput('User not created. See error messages below:')
         ->expectsOutput('The email field must be a valid email address.')
