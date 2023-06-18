@@ -5,3 +5,4 @@
 - One way to filter data with logic moved to QueryBuilder, validation to FormRequest (:eyes: TourController)
 - Role middleware with parameter.
 - Seeding data in Pest custom function.
+- Added github actions to run automated tests and static analyses
