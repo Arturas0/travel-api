@@ -16,7 +16,6 @@ class UpsertTourRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'travel_id' => ['required', 'exists:travels,id'],
             'name' => ['required', 'string'],
             'start_date' => ['required', 'date', 'after_or_equal:today'],
             'end_date' => ['required', 'date', 'after_or_equal:today'],
