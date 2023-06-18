@@ -22,7 +22,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'token' => auth()->user()->createToken($request->header('user_agent') ?? 'token')->plainTextToken
+            'token' => auth()->user()->createToken($request->header('user_agent') ?? 'token')->plainTextToken,
         ]);
     }
 }

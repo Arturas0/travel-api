@@ -35,7 +35,7 @@ test('can get paginated travels resource', function (): void {
 
     $response->assertStatus(200)
         ->assertJsonCount(15, 'data')
-        ->assertJsonPath('meta.last_page',2);
+        ->assertJsonPath('meta.last_page', 2);
 });
 
 test('admin user can create new travel', function (): void {
@@ -67,7 +67,7 @@ test('admin user can create new travel', function (): void {
                 'type',
                 'id',
                 'attributes',
-            ]
+            ],
         ])
         ->assertJsonPath('data.attributes.name', $travelData['name']);
 });
