@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace App\QueryBuilders\Tour;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @template TModelClass of Model
+ * @extends Builder<Model>
+ */
 class TourQueryBuilder extends Builder
 {
     public function searchByPriceFrom(int|null $priceFrom): self
