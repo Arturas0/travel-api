@@ -8,12 +8,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TourRequest;
 use App\Http\Requests\UpsertTourRequest;
 use App\Http\Resources\v1\TourResource;
-use App\Models\Tour;
 use App\Models\Travel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TourController extends Controller
 {
+    /**
+     * Search for tours
+     * @group Tours
+     * @unauthenticated
+     */
     public function index(Travel $travel, TourRequest $request): AnonymousResourceCollection
     {
         return TourResource::collection(
@@ -28,6 +32,11 @@ class TourController extends Controller
         );
     }
 
+    /**
+     * Create a tour
+     * @group Tours
+     * @authenticated
+     */
     public function store(
         UpsertTourRequest $request,
         Travel $travel,
