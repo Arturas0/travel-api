@@ -11,5 +11,6 @@ Route::get('{travel}/tours', [TourController::class, 'index'])->name('tours');
 
 Route::middleware(['auth:sanctum'])->group(function() {
     Route::post('/', [TravelController::class, 'store'])->middleware('role:admin')->name('store');
+    Route::post('{travel}/tours', [TourController::class, 'store'])->middleware('role:admin')->name('store');
 });
 
