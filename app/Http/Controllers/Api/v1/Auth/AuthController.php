@@ -10,8 +10,19 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group Auth
+ * @unauthenticated
+ */
 class AuthController extends Controller
 {
+    /**
+     * @param LoginRequest $request
+     * @response {
+     *  "token": "1Aytfsfy45kJDSDSD"
+     * }
+     * @throws ValidationException
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         if (! auth()->attempt($request->validated())) {

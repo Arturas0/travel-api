@@ -10,8 +10,15 @@ use App\Http\Resources\v1\TravelResource;
 use App\Models\Travel;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * @group Travels
+ */
 class TravelController extends Controller
 {
+    /**
+     * Get travels list
+     * @unauthenticated
+     */
     public function index(): AnonymousResourceCollection
     {
         return TravelResource::collection(
@@ -21,6 +28,10 @@ class TravelController extends Controller
         );
     }
 
+    /**
+     * Create travel
+     * @authenticated
+     */
     public function store(UpsertTravelRequest $request): TravelResource
     {
         return TravelResource::make(
@@ -30,6 +41,10 @@ class TravelController extends Controller
         );
     }
 
+    /**
+     * Update travel
+     * @authenticated
+     */
     public function update(UpsertTravelRequest $request, Travel $travel): TravelResource
     {
         $travel->update($request->validated());
