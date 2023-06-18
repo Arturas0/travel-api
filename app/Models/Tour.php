@@ -28,6 +28,10 @@ class Tour extends Model
         'price' => 'integer',
     ];
 
+    /**
+     * @param $query
+     * @return TourQueryBuilder<Model>
+     */
     public function newEloquentBuilder($query): Builder
     {
         return new TourQueryBuilder($query);
