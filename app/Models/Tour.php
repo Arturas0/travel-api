@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\QueryBuilders\Tour\TourQueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
 class Tour extends Model
 {
@@ -28,6 +28,10 @@ class Tour extends Model
         'price' => 'integer',
     ];
 
+    /**
+     * @param $query
+     * @return TourQueryBuilder<Model>
+     */
     public function newEloquentBuilder($query): Builder
     {
         return new TourQueryBuilder($query);

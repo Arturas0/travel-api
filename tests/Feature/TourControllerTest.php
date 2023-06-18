@@ -133,7 +133,7 @@ test('can get paginated tours resource by travel slug with date filters and sort
 
     $response = $this->get(route('v1.travels.tours', [
         'travel' => $travelLatest,
-        'dateFrom' => Carbon::createFromDate()->addDays(2)->format('Y-m-d')
+        'dateFrom' => Carbon::createFromDate()->addDays(2)->format('Y-m-d'),
     ]));
 
     $response->assertStatus(200)
@@ -190,7 +190,6 @@ test('Tours EP return 422 error code, when given invalid parameters', function (
         'price' => 500,
     ]);
 
-
     $response = $this->get(route('v1.travels.tours', [
         'travel' => $travelLatest,
         'sortByPrice' => 'random',
@@ -198,7 +197,7 @@ test('Tours EP return 422 error code, when given invalid parameters', function (
 
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
         ->assertJsonMissing(['data'])
-        ->assertJsonCount(1,'errors');
+        ->assertJsonCount(1, 'errors');
 });
 
 test('admin user can create new tour', function (): void {
@@ -233,7 +232,7 @@ test('admin user can create new tour', function (): void {
                 'type',
                 'id',
                 'attributes',
-            ]
+            ],
         ])
         ->assertJsonPath('data.attributes.name', $tourData['name']);
 });

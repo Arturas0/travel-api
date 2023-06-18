@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\v1;
 
+use App\Models\Travel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Travel
+ */
 class TravelResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -24,8 +28,8 @@ class TravelResource extends JsonResource
             'relationships' => [
                 'tours' => [
                     TourResource::collection($this->whenLoaded('tours')),
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

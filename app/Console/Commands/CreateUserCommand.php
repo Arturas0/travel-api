@@ -20,7 +20,8 @@ class CreateUserCommand extends Command
 
     public function handle(): int
     {
-        $this->info('User registration form. Please fill all fields.').PHP_EOL;
+        $this->info('User registration form. Please fill all fields.');
+        $this->info('');
 
         $email = $this->ask('What is user email?');
         $roles = $this->choice(
@@ -33,23 +34,23 @@ class CreateUserCommand extends Command
 
         if (! $this->validateUserInput($email, $password)) {
             return 1;
-        };
+        }
 
         DB::transaction(function () use ($email, $password, $roles) {
             $user = User::create([
                 'email' => $email,
-                'password' => Hash::make($password)
+                'password' => Hash::make($password),
             ]);
 
             $roleIds = Role::whereIn('name', Arr::wrap($roles))
                 ->pluck('id', 'name')->toArray();
 
             $roleIds
-                ?  $user->roles()->attach($roleIds)
+                ? $user->roles()->attach($roleIds)
                 : $this->error('admin or editor roles are not created! Create them first and try again.');
         });
 
-        $this->info('User with email: '.$email. ' was created.');
+        $this->info('User with email: '.$email.' was created.');
 
         return 0;
     }

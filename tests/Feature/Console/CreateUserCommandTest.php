@@ -36,7 +36,7 @@ test('Throws validation errors, then trying register user with incorrect email',
     $this->artisan('users:create')
         ->expectsQuestion('What is user email?', 'test.com')
         ->expectsChoice('What is user role', 'editor', [
-            0 =>'admin',
+            0 => 'admin',
             1 => 'editor',
         ])
         ->expectsQuestion('What is the user password? (min 6 symbols)', '123456')

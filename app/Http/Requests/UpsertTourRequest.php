@@ -19,7 +19,7 @@ class UpsertTourRequest extends FormRequest
             'name' => ['required', 'string'],
             'start_date' => ['required', 'date', 'after_or_equal:today'],
             'end_date' => ['required', 'date', 'after_or_equal:today'],
-            'price' => ['required', 'integer', 'min:0']
+            'price' => ['required', 'integer', 'min:0'],
         ];
     }
 }

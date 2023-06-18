@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\v1;
 
+use App\Models\Tour;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Tour
+ */
 class TourResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -19,7 +23,7 @@ class TourResource extends JsonResource
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'price' => $this->price,
-            ]
+            ],
         ];
     }
 }
