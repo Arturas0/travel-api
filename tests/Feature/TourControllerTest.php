@@ -223,6 +223,7 @@ test('admin user can create new tour', function (): void {
 
     $response = $this
         ->withHeaders([
+            'Accept' => 'application/vnd.api+json',
             'Authorization' => 'Bearer '.$userData['access_token'],
         ])
         ->post('api/v1/travels/'.$travel->id.'/tours', $tourData);
