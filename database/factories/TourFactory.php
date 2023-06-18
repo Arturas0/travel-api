@@ -13,7 +13,7 @@ class TourFactory extends Factory
 {
     public function definition(): array
     {
-        $startDate = fake()->dateTimeBetween(now(), now()->addDays(rand(4,21))) ;
+        $startDate = fake()->dateTimeBetween(now(), now()->addDays(rand(4, 21)));
 
         return [
             'travel_id' => null,

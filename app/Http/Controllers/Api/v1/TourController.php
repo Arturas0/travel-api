@@ -32,7 +32,7 @@ class TourController extends Controller
     {
         return TourResource::make(
             Tour::create([
-                ...$request->validated()
+                ...$request->validated(),
             ])
         );
     }

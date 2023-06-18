@@ -17,7 +17,7 @@ class TravelSeeder extends Seeder
                 'name' => fake()->name(),
                 'slug' => fake()->slug(),
                 'description' => fake()->realText(),
-                'number_of_days' => rand(4,21),
+                'number_of_days' => rand(4, 21),
                 'created_at' => now(),
             ],
             [
@@ -26,7 +26,7 @@ class TravelSeeder extends Seeder
                 'name' => fake()->name(),
                 'slug' => fake()->slug(),
                 'description' => fake()->realText(),
-                'number_of_days' => rand(4,21),
+                'number_of_days' => rand(4, 21),
                 'created_at' => now(),
             ],
             [
@@ -35,7 +35,7 @@ class TravelSeeder extends Seeder
                 'name' => fake()->name(),
                 'slug' => fake()->slug(),
                 'description' => fake()->realText(),
-                'number_of_days' => rand(4,21),
+                'number_of_days' => rand(4, 21),
                 'created_at' => now(),
             ],
         ];

@@ -39,9 +39,9 @@ test('user cannot login with incorrect credentials', function (): void {
 
     $response = $this->withHeader('Accept', 'application/vnd.api+json')
         ->post(route('v1.login', [
-                'email' => $email,
-                'password' => 'incorrect-password',
-            ])
+            'email' => $email,
+            'password' => 'incorrect-password',
+        ])
         );
 
     $response->assertStatus(Response::HTTP_UNAUTHORIZED)

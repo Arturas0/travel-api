@@ -24,8 +24,8 @@ class TravelResource extends JsonResource
             'relationships' => [
                 'tours' => [
                     TourResource::collection($this->whenLoaded('tours')),
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }
