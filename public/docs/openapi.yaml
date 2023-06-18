@@ -1,0 +1,787 @@
+openapi: 3.0.3
+info:
+  title: Travel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://travel-api.test'
+paths:
+  /api/v1/login:
+    post:
+      summary: ''
+      operationId: postApiV1Login
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  token: 1Aytfsfy45kJDSDSD
+                properties:
+                  token:
+                    type: string
+                    example: 1Aytfsfy45kJDSDSD
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: lmetz@example.com
+                password:
+                  type: string
+                  description: ''
+                  example: 'VjM-:y-=r(wGO_'
+              required:
+                - email
+                - password
+      security: []
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/v1/travels/{travel_slug}/tours':
+    get:
+      summary: 'Search for tours'
+      operationId: searchForTours
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data: []
+                  links:
+                    first: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours?page=1'
+                    last: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: null
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours?page=1'
+                        label: '1'
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    path: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours'
+                    per_page: 15
+                    to: null
+                    total: 0
+                properties:
+                  data:
+                    type: array
+                    example: []
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours?page=1'
+                      last:
+                        type: string
+                        example: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: string
+                        example: null
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            active: false
+                          -
+                            url: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours?page=1'
+                            label: '1'
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://travel-api.test/api/v1/travels/corporis-quia-minus-ullam/tours'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: string
+                        example: null
+                      total:
+                        type: integer
+                        example: 0
+      tags:
+        - Tours
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priceFrom:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 64
+                priceTo:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 46
+                dateFrom:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2082-12-16'
+                dateTo:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2084-05-15'
+                sortByPrice:
+                  type: string
+                  description: 'Must be one of <code>ASC</code> or <code>DESC</code>.'
+                  example: ASC
+      security: []
+    parameters:
+      -
+        in: path
+        name: travel_slug
+        description: 'The slug of the travel.'
+        example: corporis-quia-minus-ullam
+        required: true
+        schema:
+          type: string
+  '/api/v1/travels/{slug}/tours':
+    post:
+      summary: 'Create a tour'
+      operationId: createATour
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Tours
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: blanditiis
+                start_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2083-05-19'
+                end_date:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2097-10-15'
+                price:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 16
+              required:
+                - name
+                - start_date
+                - end_date
+                - price
+    parameters:
+      -
+        in: path
+        name: slug
+        description: 'The slug of the travel.'
+        example: corporis-quia-minus-ullam
+        required: true
+        schema:
+          type: string
+  /api/v1/travels:
+    get:
+      summary: 'Get travels list'
+      operationId: getTravelsList
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      type: travels
+                      id: 01H32RZRSZPQ2H5YNJ8GG9QXPN
+                      attributes:
+                        name: 'Dr. Deonte Wyman'
+                        slug: corporis-quia-minus-ullam
+                        description: 'Let me see: that would be like, but it was out of a tree a few minutes it puffed away without speaking, but at last came a little shaking among the bright flower-beds and the beak-- Pray how did you.'
+                        number_of_days: 10
+                        number_of_nights: 9
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01H32RZRTDWD5J06077FF13J1K
+                      attributes:
+                        name: 'Mrs. Brandyn Lind'
+                        slug: iusto-velit-vero-ducimus-molestias-occaecati-libero
+                        description: "WOULD always get into that beautiful garden--how IS that to be found: all she could not answer without a cat! It's the most interesting, and perhaps after all it might happen any minute, 'and then,'."
+                        number_of_days: 6
+                        number_of_nights: 5
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36syp7w5ddv8916n1jr4wkh
+                      attributes:
+                        name: 'Kelione 1'
+                        slug: kelione-1
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36t0cr4rr4bkkymdhv5v1q6
+                      attributes:
+                        name: 'Kelione 2'
+                        slug: kelione-2
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36t0gkseh1n15hxr47dqew5
+                      attributes:
+                        name: 'Kelione 2'
+                        slug: kelione-2-1
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36t1ezkecnfgdsjvk8ybr5f
+                      attributes:
+                        name: 'Kelione 2'
+                        slug: kelione-2-2
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36tfkgmebnsmmbt30ehyyvq
+                      attributes:
+                        name: 'Kelione 3'
+                        slug: kelione-3
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36tftx6s1xm3eqnkvw870hz
+                      attributes:
+                        name: 'Kelione 3'
+                        slug: kelione-3-1
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36tgcwf53ceq1074kq5697c
+                      attributes:
+                        name: 'Kelione 4'
+                        slug: kelione-4
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36tgsmkdwv8h2t1a8m7sr5k
+                      attributes:
+                        name: 'Kelione 5'
+                        slug: kelione-5
+                        description: 'Nauja kelione je je'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                    -
+                      type: travels
+                      id: 01h36th95b1x6cjpjmnmyjkcp6
+                      attributes:
+                        name: 'Kelione 5_v2'
+                        slug: kelione-5-v2
+                        description: 'Nauja kelione v2'
+                        number_of_days: 14
+                        number_of_nights: 13
+                      relationships:
+                        tours: []
+                  links:
+                    first: 'http://travel-api.test/api/v1/travels?page=1'
+                    last: 'http://travel-api.test/api/v1/travels?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://travel-api.test/api/v1/travels?page=1'
+                        label: '1'
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    path: 'http://travel-api.test/api/v1/travels'
+                    per_page: 15
+                    to: 11
+                    total: 11
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        type: travels
+                        id: 01H32RZRSZPQ2H5YNJ8GG9QXPN
+                        attributes:
+                          name: 'Dr. Deonte Wyman'
+                          slug: corporis-quia-minus-ullam
+                          description: 'Let me see: that would be like, but it was out of a tree a few minutes it puffed away without speaking, but at last came a little shaking among the bright flower-beds and the beak-- Pray how did you.'
+                          number_of_days: 10
+                          number_of_nights: 9
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01H32RZRTDWD5J06077FF13J1K
+                        attributes:
+                          name: 'Mrs. Brandyn Lind'
+                          slug: iusto-velit-vero-ducimus-molestias-occaecati-libero
+                          description: "WOULD always get into that beautiful garden--how IS that to be found: all she could not answer without a cat! It's the most interesting, and perhaps after all it might happen any minute, 'and then,'."
+                          number_of_days: 6
+                          number_of_nights: 5
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36syp7w5ddv8916n1jr4wkh
+                        attributes:
+                          name: 'Kelione 1'
+                          slug: kelione-1
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36t0cr4rr4bkkymdhv5v1q6
+                        attributes:
+                          name: 'Kelione 2'
+                          slug: kelione-2
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36t0gkseh1n15hxr47dqew5
+                        attributes:
+                          name: 'Kelione 2'
+                          slug: kelione-2-1
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36t1ezkecnfgdsjvk8ybr5f
+                        attributes:
+                          name: 'Kelione 2'
+                          slug: kelione-2-2
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36tfkgmebnsmmbt30ehyyvq
+                        attributes:
+                          name: 'Kelione 3'
+                          slug: kelione-3
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36tftx6s1xm3eqnkvw870hz
+                        attributes:
+                          name: 'Kelione 3'
+                          slug: kelione-3-1
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36tgcwf53ceq1074kq5697c
+                        attributes:
+                          name: 'Kelione 4'
+                          slug: kelione-4
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36tgsmkdwv8h2t1a8m7sr5k
+                        attributes:
+                          name: 'Kelione 5'
+                          slug: kelione-5
+                          description: 'Nauja kelione je je'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                      -
+                        type: travels
+                        id: 01h36th95b1x6cjpjmnmyjkcp6
+                        attributes:
+                          name: 'Kelione 5_v2'
+                          slug: kelione-5-v2
+                          description: 'Nauja kelione v2'
+                          number_of_days: 14
+                          number_of_nights: 13
+                        relationships:
+                          tours: []
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: travels
+                        id:
+                          type: string
+                          example: 01H32RZRSZPQ2H5YNJ8GG9QXPN
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 'Dr. Deonte Wyman'
+                            slug:
+                              type: string
+                              example: corporis-quia-minus-ullam
+                            description:
+                              type: string
+                              example: 'Let me see: that would be like, but it was out of a tree a few minutes it puffed away without speaking, but at last came a little shaking among the bright flower-beds and the beak-- Pray how did you.'
+                            number_of_days:
+                              type: integer
+                              example: 10
+                            number_of_nights:
+                              type: integer
+                              example: 9
+                        relationships:
+                          type: object
+                          properties:
+                            tours:
+                              type: array
+                              example: []
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://travel-api.test/api/v1/travels?page=1'
+                      last:
+                        type: string
+                        example: 'http://travel-api.test/api/v1/travels?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            active: false
+                          -
+                            url: 'http://travel-api.test/api/v1/travels?page=1'
+                            label: '1'
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://travel-api.test/api/v1/travels'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: integer
+                        example: 11
+                      total:
+                        type: integer
+                        example: 11
+      tags:
+        - Travels
+      security: []
+    post:
+      summary: 'Create travel'
+      operationId: createTravel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Travels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is_public:
+                  type: boolean
+                  description: ''
+                  example: false
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: ojxulvpuyvrfdkexifminwhm
+                description:
+                  type: string
+                  description: ''
+                  example: 'Sit libero qui tempora a quis dignissimos non.'
+                number_of_days:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 63
+              required:
+                - is_public
+                - name
+                - description
+                - number_of_days
+  '/api/v1/travels/{slug}':
+    put:
+      summary: 'Update travel'
+      operationId: updateTravel
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Travels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is_public:
+                  type: boolean
+                  description: ''
+                  example: false
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: upmbyyqklrlpjazleyjfekvfm
+                description:
+                  type: string
+                  description: ''
+                  example: 'Consequuntur minima eos reiciendis iure suscipit voluptas.'
+                number_of_days:
+                  type: integer
+                  description: 'Must be at least 1.'
+                  example: 70
+              required:
+                - is_public
+                - name
+                - description
+                - number_of_days
+    parameters:
+      -
+        in: path
+        name: slug
+        description: 'The slug of the travel.'
+        example: corporis-quia-minus-ullam
+        required: true
+        schema:
+          type: string
+tags:
+  -
+    name: Auth
+    description: ''
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: Tours
+    description: ''
+  -
+    name: Travels
+    description: ''
