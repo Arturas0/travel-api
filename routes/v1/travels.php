@@ -8,3 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TravelController::class, 'index'])->name('index');
 Route::get('{travel}/tours', [TourController::class, 'index'])->name('tours');
+
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::post('/', [TravelController::class, 'store'])->middleware('role:admin')->name('store');
+});
+
