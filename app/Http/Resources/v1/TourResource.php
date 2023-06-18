@@ -19,7 +19,7 @@ class TourResource extends JsonResource
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'price' => $this->price,
-            ]
+            ],
         ];
     }
 }

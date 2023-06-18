@@ -19,7 +19,7 @@ class UpsertTravelRequest extends FormRequest
             'is_public' => ['required', 'boolean'],
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'number_of_days' => ['required', 'int', 'min:1']
+            'number_of_days' => ['required', 'int', 'min:1'],
         ];
     }
 }

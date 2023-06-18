@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginRequest extends FormRequest

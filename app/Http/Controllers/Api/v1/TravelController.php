@@ -25,7 +25,7 @@ class TravelController extends Controller
     {
         return TravelResource::make(
             Travel::create([
-                ...$request->validated()
+                ...$request->validated(),
             ])
         );
     }
