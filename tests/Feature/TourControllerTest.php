@@ -213,7 +213,6 @@ test('admin user can create new tour', function (): void {
     $travel = Travel::factory()->create();
 
     $tourData = [
-        'travel_id' => $travel->id,
         'name' => 'Kelione 1',
         'start_date' => now(),
         'end_date' => now(),
@@ -225,7 +224,7 @@ test('admin user can create new tour', function (): void {
             'Accept' => 'application/vnd.api+json',
             'Authorization' => 'Bearer '.$userData['access_token'],
         ])
-        ->post('api/v1/travels/'.$travel->id.'/tours', $tourData);
+        ->post('api/v1/travels/'.$travel->slug.'/tours', $tourData);
 
     $response->assertStatus(Response::HTTP_CREATED)
         ->assertJsonStructure([
@@ -250,15 +249,14 @@ test('user cannot create new tour with invalid data', function (): void {
 
     $travel = Travel::factory()->create();
 
-    $invalidTravelId = 'non_existing-ulid';
     $invalidDate = now()->subDay();
+    $invalidPrice = -10;
 
     $tourData = [
-        'travel_id' => $invalidTravelId,
         'name' => 'Kelione 1',
         'start_date' => $invalidDate,
-        'end_date' => $invalidDate,
-        'price' => 300,
+        'end_date' => now(),
+        'price' => $invalidPrice,
     ];
 
     $response = $this
@@ -266,10 +264,10 @@ test('user cannot create new tour with invalid data', function (): void {
             'Accept' => 'application/vnd.api+json',
             'Authorization' => 'Bearer '.$userData['access_token'],
         ])
-        ->post('api/v1/travels/'.$travel->id.'/tours', $tourData);
+        ->post('api/v1/travels/'.$travel->slug.'/tours', $tourData);
 
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
         ->assertJsonFragment([
-            'message' => 'The selected travel id is invalid. (and 2 more errors)',
+            'message' => 'The start date field must be a date after or equal to today. (and 1 more error)',
         ]);
 });
