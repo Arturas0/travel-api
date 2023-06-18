@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\Tour;
-use App\Models\Travel;
+use App\Models\Role;
+use App\Models\User;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 uses(
@@ -23,7 +24,25 @@ uses(
 |
 */
 
-function something()
+function createUserWithToken(array $data): array
 {
+    test()->seed(RoleSeeder::class);
 
+    $user = User::create([
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+    ]);
+
+    if ($data['role']) {
+        $roleId = Role::where('name', $data['role'])->first()?->id;
+
+        if ($roleId) {
+            $user->roles()->attach($roleId);
+        }
+    }
+
+    return [
+        'user' => $user,
+        'access_token' => $user->createToken('token')->plainTextToken,
+    ];
 }
