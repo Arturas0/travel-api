@@ -200,3 +200,77 @@ test('Tours EP return 422 error code, when given invalid parameters', function (
         ->assertJsonMissing(['data'])
         ->assertJsonCount(1,'errors');
 });
+
+test('admin user can create new tour', function (): void {
+    $email = 'admin@example.gov';
+    $password = '123456';
+
+    $userData = createUserWithToken([
+        'email' => $email,
+        'password' => $password,
+        'role' => 'admin',
+    ]);
+
+    $travel = Travel::factory()->create();
+
+    $tourData = [
+        'travel_id' => $travel->id,
+        'name' => 'Kelione 1',
+        'start_date' => now(),
+        'end_date' => now(),
+        'price' => 300,
+    ];
+
+    $response = $this
+        ->withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Authorization' => 'Bearer '.$userData['access_token'],
+        ])
+        ->post('api/v1/travels/'.$travel->id.'/tours', $tourData);
+
+    $response->assertStatus(Response::HTTP_CREATED)
+        ->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes',
+            ]
+        ])
+        ->assertJsonPath('data.attributes.name', $tourData['name']);
+});
+
+test('user cannot create new tour with invalid data', function (): void {
+    $email = 'admin@example.gov';
+    $password = '123456';
+
+    $userData = createUserWithToken([
+        'email' => $email,
+        'password' => $password,
+        'role' => 'admin',
+    ]);
+
+    $travel = Travel::factory()->create();
+
+    $invalidTravelId = 'non_existing-ulid';
+    $invalidDate = now()->subDay();
+
+    $tourData = [
+        'travel_id' => $invalidTravelId,
+        'name' => 'Kelione 1',
+        'start_date' => $invalidDate,
+        'end_date' => $invalidDate,
+        'price' => 300,
+    ];
+
+    $response = $this
+        ->withHeaders([
+            'Accept' => 'application/vnd.api+json',
+            'Authorization' => 'Bearer '.$userData['access_token'],
+        ])
+        ->post('api/v1/travels/'.$travel->id.'/tours', $tourData);
+
+    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+        ->assertJsonFragment([
+            'message' => 'The selected travel id is invalid. (and 2 more errors)',
+        ]);
+});
