@@ -20,7 +20,8 @@ class CreateUserCommand extends Command
 
     public function handle(): int
     {
-        $this->info('User registration form. Please fill all fields.').PHP_EOL;
+        $this->info('User registration form. Please fill all fields.');
+        $this->info('');
 
         $email = $this->ask('What is user email?');
         $roles = $this->choice(
