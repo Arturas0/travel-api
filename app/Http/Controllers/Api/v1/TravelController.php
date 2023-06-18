@@ -32,9 +32,7 @@ class TravelController extends Controller
 
     public function update(UpsertTravelRequest $request, Travel $travel): TravelResource
     {
-        $travel->update([
-            ...$request->validated(),
-        ]);
+        $travel->update($request->validated());
 
         return TravelResource::make(
             $travel->refresh()
