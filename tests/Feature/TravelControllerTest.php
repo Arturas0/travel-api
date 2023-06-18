@@ -122,7 +122,7 @@ test('editor user can update existing travel', function (): void {
         ->withHeaders([
             'Authorization' => 'Bearer '.$userData['access_token'],
         ])
-        ->post('api/v1/travels/'.$travel->slug, $newTravelData);
+        ->put('api/v1/travels/'.$travel->slug, $newTravelData);
 
     $response->assertStatus(Response::HTTP_OK)
         ->assertJsonPath('data.attributes.number_of_days', $newTravelData['number_of_days']);
