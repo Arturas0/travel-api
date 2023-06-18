@@ -28,12 +28,12 @@ class TourController extends Controller
         );
     }
 
-    public function store(UpsertTourRequest $request): TourResource
-    {
+    public function store(
+        UpsertTourRequest $request,
+        Travel $travel,
+    ): TourResource {
         return TourResource::make(
-            Tour::create([
-                ...$request->validated()
-            ])
+            $travel->tours()->create($request->validated())
         );
     }
 }
