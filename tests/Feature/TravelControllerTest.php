@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Models\Travel;
 use Database\Seeders\TravelSeeder;
+use Symfony\Component\HttpFoundation\Response;
 
 test('can get public travels resource correctly', function (): void {
     $this->seed(TravelSeeder::class);
@@ -35,4 +36,64 @@ test('can get paginated travels resource', function (): void {
     $response->assertStatus(200)
         ->assertJsonCount(15, 'data')
         ->assertJsonPath('meta.last_page',2);
+});
+
+test('admin user can create new travel', function (): void {
+    $email = 'admin@example.gov';
+    $password = '123456';
+
+    $userData = createUserWithToken([
+        'email' => $email,
+        'password' => $password,
+        'role' => 'admin',
+    ]);
+
+    $travelData = [
+        'is_public' => true,
+        'name' => 'New travel Kaunas to New York',
+        'description' => 'New travel available',
+        'number_of_days' => 21,
+    ];
+
+    $response = $this
+        ->withHeaders([
+            'Authorization' => 'Bearer '.$userData['access_token'],
+        ])
+        ->post('api/v1/travels', $travelData);
+
+    $response->assertStatus(Response::HTTP_CREATED)
+        ->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes',
+            ]
+        ])
+        ->assertJsonPath('data.attributes.name', $travelData['name']);
+});
+
+test('editor user cannot create new travel', function (): void {
+    $email = 'editor@example.gov';
+    $password = '123456';
+
+    $userData = createUserWithToken([
+        'email' => $email,
+        'password' => $password,
+        'role' => 'editor',
+    ]);
+
+    $travelData = [
+        'is_public' => true,
+        'name' => 'New travel Kaunas to New York',
+        'description' => 'New travel available',
+        'number_of_days' => 21,
+    ];
+
+    $response = $this
+        ->withHeaders([
+            'Authorization' => 'Bearer '.$userData['access_token'],
+        ])
+        ->post('api/v1/travels', $travelData);
+
+    $response->assertStatus(Response::HTTP_FORBIDDEN);
 });
