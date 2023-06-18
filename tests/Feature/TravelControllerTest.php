@@ -97,3 +97,33 @@ test('editor user cannot create new travel', function (): void {
 
     $response->assertStatus(Response::HTTP_FORBIDDEN);
 });
+
+
+test('editor user can update existing travel', function (): void {
+    $email = 'editor@example.gov';
+    $password = '123456';
+
+    $userData = createUserWithToken([
+        'email' => $email,
+        'password' => $password,
+        'role' => 'editor',
+    ]);
+
+    $travel = Travel::factory()->create();
+
+    $newTravelData = [
+        'is_public' => true,
+        'name' => 'Travel Kaunas to New York',
+        'description' => 'Travel available',
+        'number_of_days' => 12,
+    ];
+
+    $response = $this
+        ->withHeaders([
+            'Authorization' => 'Bearer '.$userData['access_token'],
+        ])
+        ->post('api/v1/travels/'.$travel->slug, $newTravelData);
+
+    $response->assertStatus(Response::HTTP_OK)
+        ->assertJsonPath('data.attributes.number_of_days', $newTravelData['number_of_days']);
+});
